@@ -21,8 +21,8 @@ function init (){
     console.log("Samples: " + samples);
     
     //Invoking functions to plot charts in the html- Initialization is done on the first element (id = 940)
-    plotBarChart(samples[0]);
-    plotBubbleChart(samples[0]);
+    plotBarChart(names[0]);
+    plotBubbleChart(names[0]);
     plotMetaData(metadata[0]);
   });
 }
@@ -49,7 +49,7 @@ function plotBarChart(sample) {
       let sample_values = valueData.sample_values;
 
       // Log the data to the console
-      console.log(otu_ids,otu_labels,sample_values);
+      console.log(otu_ids, otu_labels, sample_values);
 
       // Set top ten items to display in descending order
       let yticks = otu_ids.slice(0,10).map(id => `OTU ${id}`).reverse();
@@ -164,26 +164,17 @@ for (let i = 0; i<names.length; i++){
 
 
 //Function that is run everytime there is a change in teh TEst Subject ID
-function optionChanged (){
 
-  // Checking current Test Subject ID
-  let dropdownMenu = d3.select("#selDataset");
+// Function that updates dashboard when sample is changed
+function optionChanged(value) { 
 
-  // Assign the value of the dropdown menu option to a variable the metadata id and sample id
-  let dataset = dropdownMenu.property("value");
+  // Log the new value
+  console.log(value); 
 
-  let data = d3.json(url).then(function(data) {
-    console.log(data);
- 
-    let samples = data.samples;
-    let metadata = data.metadata;
- 
-    plotBarChart(samples[dataset]);
- 
-    plotBubbleChart(samples[dataset]);
- 
-    plotMetaData(metadata[dataset]);
- });
+  // Call all functions 
+  buildMetadata(value);
+  buildBarChart(value);
+  buildBubbleChart(value);
 };
 
 init();
